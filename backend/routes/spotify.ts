@@ -89,29 +89,46 @@ router.get("/getUserPlaylists", async (req, res) => {
   res.send({ playlists: playlists });
 });
 
-router.get("/shufflePlaylist", async (req, res) => {
-  let id = ""; //req.params.id?
-  let { body: playlist } = await api.getPlaylist(id);
-  let tracks = playlist.tracks.items.map((track) => track.track);
-  await api.removeTracksFromPlaylist(id, tracks);
-  let shuffled = shuffleArray(tracks) as SpotifyApi.TrackObjectFull[];
-  await api.addTracksToPlaylist(
-    id,
-    shuffled.map((track) => track.uri)
-  );
-  res.send("shuffled");
+router.get("/shufflePlaylist/:id", async (req, res) => {
+  let id = req.params?.id; //req.params.id?
+  try {
+    let { body: playlist } = await api.getPlaylist(id);
+    let tracks = playlist.tracks.items.map((track) => track.track);
+    let uris = tracks.map((track) => {
+      return { uri: track.uri };
+    });
+    await api.removeTracksFromPlaylist(id, uris);
+    let shuffled: SpotifyApi.TrackObjectFull[] = shuffle(tracks);
+    console.log(shuffled.map((track) => track.id));
+    await api.addTracksToPlaylist(
+      id,
+      shuffled.map((track) => track.uri)
+    );
+    res.send("shuffled");
+  } catch (err) {
+    console.error(err);
+    console.log("sorry");
+  }
 });
 
-/**
- * @cite: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array#2450976
- */
-function shuffleArray(items: any[]) {
-  return items
-    .map((value) => ({ value, sort: Math.random }))
-    .sort(
-      (a, b) => (a.sort as unknown as number) - (b.sort as unknown as number)
-    )
-    .map(({ value }) => value);
+function shuffle(array: any[]) {
+  let counter = array.length;
+
+  // While there are elements in the array
+  while (counter > 0) {
+    // Pick a random index
+    let index = Math.floor(Math.random() * counter);
+
+    // Decrease counter by 1
+    counter--;
+
+    // And swap the last element with it
+    let temp = array[counter];
+    array[counter] = array[index];
+    array[index] = temp;
+  }
+
+  return array;
 }
 
 export const SpotifyRouter: IRoute = {
