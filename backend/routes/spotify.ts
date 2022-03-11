@@ -5,12 +5,11 @@ import { scopes, api, shuffle } from "../utils/index";
 const router = Router();
 
 router.get("/test", (req, res) => {
-  res.send("tested");
+  res.status(200).send({ msg: "tested" });
 });
 
 // route: /spotify/
 router.get("/", async (req, res) => {
-  console.log("receieved a req");
   res.redirect("/spotify/auth");
 });
 
@@ -43,10 +42,8 @@ router.get("/callback", async (req, res) => {
       try {
         const data = await api.refreshAccessToken();
         const access_token = data.body["access_token"];
-        console.log("The access token has been refreshed!");
         api.setAccessToken(access_token);
       } catch (err) {
-        console.log("Problem retrieving refresh token: ");
         console.log(err);
       }
     }, (expires_in / 2) * 100);
@@ -62,15 +59,19 @@ router.get("/callback", async (req, res) => {
 });
 
 router.get("/user", async (req, res) => {
-  let { body } = await api.getMe();
+  try {
+    let { body } = await api.getMe();
 
-  let img = (body.images as SpotifyApi.ImageObject[])[0].url;
-  let name = body.display_name;
+    let img = (body.images as SpotifyApi.ImageObject[])[0].url;
+    let name = body.display_name;
 
-  res.send({
-    img: img,
-    name: name,
-  });
+    res.send({
+      img: img,
+      name: name,
+    });
+  } catch (err) {
+    res.status(401).send({ success: false });
+  }
 });
 
 /*
