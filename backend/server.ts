@@ -12,4 +12,4 @@ for (const route of Routes) {
   app.use(route.path, route.router);
 }
 
-app.listen(8000, () => console.log("app listening on http://localhost:8000"));
+export const server = app.listen(8000);
