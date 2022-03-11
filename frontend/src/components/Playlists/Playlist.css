@@ -1,0 +1,24 @@
+.playlist {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem;
+
+  margin: 0.2rem;
+}
+
+.playlist:hover {
+  cursor: pointer;
+  background: lightgray;
+  color: black;
+}
+
+.shuffled {
+  font-style: italic;
+  color: lightgreen;
+}
+
+.playlist img {
+  width: 50px;
+}
