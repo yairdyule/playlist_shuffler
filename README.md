@@ -4,8 +4,8 @@ a web app to shuffle songs in ur playlists
 
 # usage
 
-- in `/backend`, `npm run start`
-- in `/frontend`, `npm run start`
+- in `/backend`, `npm i && npm run start`
+- in `/frontend`, `npm i && npm run start`
 
 # development
 
