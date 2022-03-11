@@ -6,7 +6,6 @@ dotenv.config();
 
 const domainsFromEnv = process.env.WHITELISTED_URL;
 const whitelist = domainsFromEnv?.split(",").map((item) => item.trim());
-console.log(whitelist);
 
 const corsOptions = {
   origin: function (origin: any, callback: any) {
