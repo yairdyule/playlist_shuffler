@@ -4,6 +4,10 @@ import { scopes, api, shuffle } from "../utils/index";
 
 const router = Router();
 
+router.get("/test", (req, res) => {
+  res.send("tested");
+});
+
 // route: /spotify/
 router.get("/", async (req, res) => {
   console.log("receieved a req");
@@ -57,6 +61,25 @@ router.get("/callback", async (req, res) => {
   }
 });
 
+router.get("/user", async (req, res) => {
+  let { body } = await api.getMe();
+
+  let img = (body.images as SpotifyApi.ImageObject[])[0].url;
+  let name = body.display_name;
+
+  res.send({
+    img: img,
+    name: name,
+  });
+});
+
+/*
+ * get the validated user's playlists
+* {playlists: [{
+    id, name, img, tracks
+    }]
+* }
+ */
 router.get("/getUserPlaylists", async (req, res) => {
   let { body } = await api.getUserPlaylists();
   let playlists = body.items.map((plist) => {
@@ -71,47 +94,64 @@ router.get("/getUserPlaylists", async (req, res) => {
   res.send({ playlists: playlists });
 });
 
+router.get("/getUserPlaylist/:playlistId", async (req, res) => {
+  let { playlistId } = req.params;
+  let { body } = await api.getPlaylist(playlistId);
+
+  let name = body.name;
+  let id = body.id;
+  let uri = body.uri;
+  let tracks = body.tracks;
+  let img = body.images[0];
+
+  res.send({
+    playlist: {
+      name,
+      id,
+      uri,
+      tracks,
+      img,
+    },
+  });
+});
+
 router.get("/shufflePlaylist/:id", async (req, res) => {
   let id = req.params?.id; //req.params.id?
+
   try {
-    let { body: playlist } = await api.getPlaylist(id);
-    let tracks = playlist.tracks.items.map((track) => track.track);
-    let uris = tracks.map((track) => {
-      return { uri: track.uri };
-    });
-    await api.removeTracksFromPlaylist(id, uris);
-    let shuffled: SpotifyApi.TrackObjectFull[] = shuffle(tracks);
-    console.log(shuffled.map((track) => track.id));
-    await api.addTracksToPlaylist(
-      id,
-      shuffled.map((track) => track.uri)
-    );
-    res.send("shuffled");
+    api
+      .getPlaylist(id)
+      .then(({ body }) => {
+        return body.tracks.items.map(({ track }) => {
+          return {
+            uri: track.uri,
+            id: track.id,
+          };
+        });
+      })
+      .then(async (trackInfo) => {
+        //remove all tracks
+        let uris = trackInfo.map((datum) => {
+          return { uri: datum.uri };
+        });
+        await api.removeTracksFromPlaylist(id, uris);
+
+        //shuffle uris
+        let shuffledUris = shuffle(uris).map((datum) => datum.uri);
+
+        //add shuffled tracks
+        await api.addTracksToPlaylist(id, shuffledUris);
+        res.send({ success: true });
+      })
+      .catch((err) => {
+        console.error(err);
+        res.send({ success: false });
+      });
   } catch (err) {
     console.error(err);
     console.log("sorry");
   }
 });
-
-function shuffle(array: any[]) {
-  let counter = array.length;
-
-  // While there are elements in the array
-  while (counter > 0) {
-    // Pick a random index
-    let index = Math.floor(Math.random() * counter);
-
-    // Decrease counter by 1
-    counter--;
-
-    // And swap the last element with it
-    let temp = array[counter];
-    array[counter] = array[index];
-    array[index] = temp;
-  }
-
-  return array;
-}
 
 export const SpotifyRouter: IRoute = {
   router: router,
