@@ -1,24 +1,6 @@
 import { Router } from "express";
-import SpotifyWebApi from "spotify-web-api-node";
-import dotenv from "dotenv";
 import { IRoute } from "../types";
-
-dotenv.config();
-const api = new SpotifyWebApi({
-  clientId: process.env.SPOTIFY_CLIENT_ID,
-  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  redirectUri: process.env.SPOTIFY_REDIRECT_URI,
-});
-const scopes = [
-  "user-read-private",
-  "user-read-email",
-  "user-read-currently-playing",
-  "user-top-read",
-  "user-modify-playback-state",
-  "user-read-currently-playing",
-  "playlist-modify-public",
-  "playlist-modify-private",
-];
+import { scopes, api, shuffle } from "../utils/index";
 
 const router = Router();
 
