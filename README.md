@@ -34,8 +34,8 @@ type uri = {
   uri: string
 }
 
-    removeTracksFromPlaylist(playlistId: string, tracks: ReadonlyArray<uri>, options: SnapshotOptions, callback: Callback<SpotifyApi.RemoveTracksFromPlaylistResponse>): void;
+removeTracksFromPlaylist(playlistId: string, tracks: ReadonlyArray<uri>, options: SnapshotOptions, callback: Callback<SpotifyApi.RemoveTracksFromPlaylistResponse>): void;
 
-    removeTracksFromPlaylist(playlistId: string, tracks: ReadonlyArray<uri>, options?: SnapshotOptions): Promise<Response<SpotifyApi.RemoveTracksFromPlaylistResponse>>;
+removeTracksFromPlaylist(playlistId: string, tracks: ReadonlyArray<uri>, options?: SnapshotOptions): Promise<Response<SpotifyApi.RemoveTracksFromPlaylistResponse>>;
 
 ```
