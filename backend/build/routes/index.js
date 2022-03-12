@@ -2,4 +2,5 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Routes = void 0;
 const spotify_1 = require("./spotify");
-exports.Routes = [spotify_1.SpotifyRouter];
+const server_1 = require("./server");
+exports.Routes = [spotify_1.SpotifyRouter, server_1.ServerRouter];

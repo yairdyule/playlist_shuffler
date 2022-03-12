@@ -6,21 +6,46 @@ import { Route, Routes } from "react-router-dom";
 // import { api } from "./utilities/api";
 
 function App() {
+  const [isAuthed, setIsAuthed] = useState(false);
+
+  const click = () => {
+    localStorage.setItem("isAuthed", "yes");
+    setIsAuthed(true);
+  };
+
+  useEffect(() => {
+    switch (localStorage.getItem("isAuthed")) {
+      case "yes":
+        setIsAuthed(true);
+        break;
+      default:
+        setIsAuthed(false);
+    }
+  }, []);
+
   const heading = <h1>playlist shuffling extravaganza</h1>;
 
+  if (!isAuthed) {
+    return (
+      <div className="App">
+        {heading}
+        <a
+          onClick={() => {
+            click();
+          }}
+          href="https://shuffling-extravaganza.herokuapp.com/spotify/auth"
+        >
+          authorize us with spotify
+        </a>
+      </div>
+    );
+  }
+
   return (
-    <Routes>
-      <Route
-        path="/playlists"
-        element={
-          <div className="App">
-            {heading}
-            <User />
-            <Playlists />
-          </div>
-        }
-      ></Route>
-    </Routes>
+    <div className="App">
+      <User />
+      <Playlists />
+    </div>
   );
 }
 

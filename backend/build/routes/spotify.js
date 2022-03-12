@@ -51,7 +51,7 @@ router.get("/callback", (req, res) => __awaiter(void 0, void 0, void 0, function
                 console.log(err);
             }
         }), (expires_in / 2) * 100);
-        res.redirect("http://localhost:3000"); //get 'back in' to frontend
+        res.redirect(process.env.FRONTEND || "http://localhost:8000/playlists"); //get 'back in' to frontend
     }
     catch (error) {
         return res.status(400).send({

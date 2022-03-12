@@ -16,4 +16,4 @@ for (const route of routes_1.Routes) {
     app.use(route.path, route.router);
 }
 app.use(express_1.default.static(path_1.default.join(__dirname, "../frontend/build")));
-exports.server = app.listen(8000);
+exports.server = app.listen(process.env.PORT || 8000);
