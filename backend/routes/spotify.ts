@@ -16,6 +16,7 @@ router.get("/", async (req, res) => {
 
 // /spotify/auth
 router.get("/auth", async (req, res) => {
+  console.log(api.getRedirectURI());
   res.redirect(api.createAuthorizeURL(scopes, "arstneio", true));
 });
 
