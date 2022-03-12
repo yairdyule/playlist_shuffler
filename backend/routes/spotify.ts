@@ -23,7 +23,7 @@ router.get("/callback", async (req, res) => {
   const { error, code, state } = req.query;
 
   if (error) {
-    return res.status(400).send({
+    return res.status(401).send({
       success: false,
       msg: "failed to authenticate with spotify's API",
     });
@@ -50,7 +50,6 @@ router.get("/callback", async (req, res) => {
 
     res.redirect("http://localhost:3000"); //get 'back in' to frontend
   } catch (error) {
-    console.error(error);
     return res.status(400).send({
       success: false,
       msg: "failed to authenticate with spotify's api",
