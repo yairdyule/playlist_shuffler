@@ -4,7 +4,7 @@ import { IRoute } from "../types";
 const router = Router();
 
 router.get("/", async (req, res) => {
-  res.redirect("index.html");
+  res.sendFile("index.html");
 });
 
 export const ServerRouter: IRoute = {
