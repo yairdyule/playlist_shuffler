@@ -26,6 +26,7 @@ router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 }));
 // /spotify/auth
 router.get("/auth", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(index_1.api.getRedirectURI());
     res.redirect(index_1.api.createAuthorizeURL(index_1.scopes, "arstneio", true));
 }));
 // /spotify/callback
