@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SpotifyRouter = void 0;
 const express_1 = require("express");
+const path_1 = __importDefault(require("path"));
 const index_1 = require("../utils/index");
 const router = (0, express_1.Router)();
 router.get("/test", (req, res) => {
@@ -51,7 +55,7 @@ router.get("/callback", (req, res) => __awaiter(void 0, void 0, void 0, function
                 console.log(err);
             }
         }), (expires_in / 2) * 100);
-        res.sendFile("index.html");
+        res.sendFile(path_1.default.join(__dirname, "index.html"));
     }
     catch (error) {
         return res.status(400).send({

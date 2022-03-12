@@ -1,10 +1,11 @@
 import { Router } from "express";
+import path from "path";
 import { IRoute } from "../types";
 
 const router = Router();
 
 router.get("/", async (req, res) => {
-  res.sendFile("index.html");
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 export const ServerRouter: IRoute = {
