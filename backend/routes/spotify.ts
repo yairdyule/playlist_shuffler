@@ -49,7 +49,7 @@ router.get("/callback", async (req, res) => {
       }
     }, (expires_in / 2) * 100);
 
-    res.sendFile(path.join(__dirname, "../frontend", "index.html"));
+    res.redirect("index.html");
   } catch (error) {
     return res.status(400).send({
       success: false,
