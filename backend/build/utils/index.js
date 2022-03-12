@@ -10,7 +10,7 @@ dotenv_1.default.config();
 exports.api = new spotify_web_api_node_1.default({
     clientId: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-    redirectUri: process.env.SPOTIFY_REDIRECT_URI,
+    redirectUri: process.env.REDIRECT_URI || process.env.SPOTIFY_REDIRECT_URI,
 });
 exports.scopes = [
     "user-read-private",
