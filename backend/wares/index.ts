@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import path from "path";
+import serve from "serve-static";
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ const corsOptions = {
   credentials: true,
 };
 
-const FrontendAssets = express.static(path.join(__dirname, "../frontend"));
+const FrontendAssets = serve(path.join(__dirname, "../frontend"));
 
 export const ExpressUrlEncoding = express.urlencoded({ extended: true });
 export const ExpressJSON = express.json();
