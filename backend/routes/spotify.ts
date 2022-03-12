@@ -48,7 +48,7 @@ router.get("/callback", async (req, res) => {
       }
     }, (expires_in / 2) * 100);
 
-    res.redirect("http://localhost:3000"); //get 'back in' to frontend
+    res.redirect(process.env.FRONTEND || "http://localhost:8000/playlists"); //get 'back in' to frontend
   } catch (error) {
     return res.status(400).send({
       success: false,
