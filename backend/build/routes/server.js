@@ -17,7 +17,7 @@ const express_1 = require("express");
 const path_1 = __importDefault(require("path"));
 const router = (0, express_1.Router)();
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.sendFile(path_1.default.join(__dirname, "../../frontend/index.html"));
+    res.sendFile(path_1.default.join(__dirname, "../frontend/index.html"));
 }));
 exports.ServerRouter = {
     router: router,

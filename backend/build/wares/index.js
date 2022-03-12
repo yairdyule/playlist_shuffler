@@ -23,7 +23,7 @@ const corsOptions = {
     },
     credentials: true,
 };
-const FrontendAssets = (0, serve_static_1.default)(path_1.default.join(__dirname, "../frontend"));
+const FrontendAssets = (0, serve_static_1.default)(path_1.default.join(__dirname, "../frontend/"));
 exports.ExpressUrlEncoding = express_1.default.urlencoded({ extended: true });
 exports.ExpressJSON = express_1.default.json();
 exports.CorsOptions = (0, cors_1.default)(corsOptions);

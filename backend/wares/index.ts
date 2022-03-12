@@ -20,7 +20,7 @@ const corsOptions = {
   credentials: true,
 };
 
-const FrontendAssets = serve(path.join(__dirname, "../frontend"));
+const FrontendAssets = serve(path.join(__dirname, "../frontend/"));
 
 export const ExpressUrlEncoding = express.urlencoded({ extended: true });
 export const ExpressJSON = express.json();
