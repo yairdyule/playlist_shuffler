@@ -51,7 +51,7 @@ router.get("/callback", (req, res) => __awaiter(void 0, void 0, void 0, function
                 console.log(err);
             }
         }), (expires_in / 2) * 100);
-        res.redirect("index.html");
+        res.sendFile("index.html");
     }
     catch (error) {
         return res.status(400).send({

@@ -13,7 +13,7 @@ exports.ServerRouter = void 0;
 const express_1 = require("express");
 const router = (0, express_1.Router)();
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.redirect("index.html");
+    res.sendFile("index.html");
 }));
 exports.ServerRouter = {
     router: router,
