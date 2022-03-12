@@ -8,13 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ServerRouter = void 0;
 const express_1 = require("express");
+const path_1 = __importDefault(require("path"));
 const router = (0, express_1.Router)();
-// route: /spotify/
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.redirect("/spotify/auth");
+    res.sendFile(path_1.default.join(__dirname, "../frontend", "index.html"));
 }));
 exports.ServerRouter = {
     router: router,

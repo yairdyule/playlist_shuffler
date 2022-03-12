@@ -7,6 +7,7 @@ exports.Wares = exports.CorsOptions = exports.ExpressJSON = exports.ExpressUrlEn
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const path_1 = __importDefault(require("path"));
 dotenv_1.default.config();
 const domainsFromEnv = process.env.WHITELISTED_URL;
 const whitelist = domainsFromEnv === null || domainsFromEnv === void 0 ? void 0 : domainsFromEnv.split(",").map((item) => item.trim());
@@ -21,7 +22,13 @@ const corsOptions = {
     },
     credentials: true,
 };
+const FrontendAssets = express_1.default.static(path_1.default.join(__dirname, "../frontend"));
 exports.ExpressUrlEncoding = express_1.default.urlencoded({ extended: true });
 exports.ExpressJSON = express_1.default.json();
 exports.CorsOptions = (0, cors_1.default)(corsOptions);
-exports.Wares = [exports.CorsOptions, exports.ExpressJSON, exports.ExpressUrlEncoding];
+exports.Wares = [
+    exports.CorsOptions,
+    exports.ExpressJSON,
+    exports.ExpressUrlEncoding,
+    FrontendAssets,
+];
