@@ -15,4 +15,4 @@ for (const route of Routes) {
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-export const server = app.listen(8000);
+export const server = app.listen(process.env.PORT || 8000);
