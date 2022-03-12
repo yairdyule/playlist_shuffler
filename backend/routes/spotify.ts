@@ -1,4 +1,5 @@
 import { Router } from "express";
+import path, { join } from "path";
 import { IRoute } from "../types";
 import { scopes, api, shuffle } from "../utils/index";
 
@@ -48,7 +49,7 @@ router.get("/callback", async (req, res) => {
       }
     }, (expires_in / 2) * 100);
 
-    res.redirect(process.env.FRONTEND || "http://localhost:8000/playlists"); //get 'back in' to frontend
+    res.sendFile(path.join(__dirname, "../../frontend/build", "index.html"));
   } catch (error) {
     return res.status(400).send({
       success: false,

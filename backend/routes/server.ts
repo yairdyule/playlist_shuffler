@@ -1,11 +1,11 @@
 import { Router } from "express";
+import path from "path";
 import { IRoute } from "../types";
 
 const router = Router();
 
-// route: /spotify/
 router.get("/", async (req, res) => {
-  res.redirect("/spotify/auth");
+  res.sendFile(path.join(__dirname, "../../frontend/build", "index.html"));
 });
 
 export const ServerRouter: IRoute = {
