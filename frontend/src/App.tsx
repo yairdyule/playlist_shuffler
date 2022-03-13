@@ -14,14 +14,12 @@ function App() {
   };
 
   useEffect(() => {
-    switch (localStorage.getItem("isAuthed")) {
-      case "yes":
-        setIsAuthed(true);
-        break;
-      default:
-        setIsAuthed(false);
-    }
+    window.addEventListener("beforeunload", handleUnload);
   }, []);
+
+  const handleUnload = () => {
+    localStorage.setItem("isAuthed", "no");
+  };
 
   const heading = <h1>playlist shuffling extravaganza</h1>;
 
