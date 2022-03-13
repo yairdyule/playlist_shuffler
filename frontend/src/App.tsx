@@ -14,12 +14,17 @@ function App() {
   };
 
   useEffect(() => {
-    window.addEventListener("beforeunload", handleUnload);
+    const authed = localStorage.getItem("isAuthed");
+    setIsAuthed(authed === "yes" ? true : false);
   }, []);
 
-  const handleUnload = () => {
-    localStorage.setItem("isAuthed", "no");
-  };
+  // useEffect(() => {
+  //   window.addEventListener("beforeunload", handleUnload);
+  // }, []);
+  //
+  // const handleUnload = () => {
+  //   localStorage.setItem("isAuthed", "no");
+  // };
 
   const heading = <h1>playlist shuffling extravaganza</h1>;
 
@@ -27,12 +32,7 @@ function App() {
     return (
       <div className="App">
         {heading}
-        <a
-          onClick={() => {
-            click();
-          }}
-          href="https://shuffling-extravaganza.herokuapp.com/spotify/auth"
-        >
+        <a href="https://shuffling-extravaganza.herokuapp.com/spotify/auth">
           authorize us with spotify
         </a>
       </div>
