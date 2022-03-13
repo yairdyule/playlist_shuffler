@@ -2,12 +2,13 @@ import SpotifyWebApi from "spotify-web-api-node";
 import dotenv from "dotenv";
 dotenv.config();
 
-console.log(process.env.REDIRECT_URI);
-
 export const api = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_CLIENT_ID,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  redirectUri: process.env.REDIRECT_URI,
+  redirectUri:
+    process.env.NODE_ENV === "development"
+      ? process.env.SPOTIFY_REDIRECT_URI
+      : process.env.REDIRECT_URI,
 });
 
 export const scopes = [

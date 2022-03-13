@@ -7,11 +7,12 @@ exports.shuffle = exports.scopes = exports.api = void 0;
 const spotify_web_api_node_1 = __importDefault(require("spotify-web-api-node"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-console.log(process.env.REDIRECT_URI);
 exports.api = new spotify_web_api_node_1.default({
     clientId: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-    redirectUri: process.env.REDIRECT_URI,
+    redirectUri: process.env.NODE_ENV === "development"
+        ? process.env.SPOTIFY_REDIRECT_URI
+        : process.env.REDIRECT_URI,
 });
 exports.scopes = [
     "user-read-private",
