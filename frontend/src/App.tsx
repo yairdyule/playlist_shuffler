@@ -32,7 +32,10 @@ function App() {
     return (
       <div className="App">
         {heading}
-        <a href="https://shuffling-extravaganza.herokuapp.com/spotify/auth">
+        <a
+          href="https://shuffling-extravaganza.herokuapp.com/spotify/auth"
+          onClick={() => click()}
+        >
           authorize us with spotify
         </a>
       </div>
