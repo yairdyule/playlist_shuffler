@@ -1,7 +1,14 @@
 import { Router } from "express";
 import path, { join } from "path";
 import { IRoute } from "../types";
-import { scopes, api, shuffle } from "../utils/index";
+import {
+  scopes,
+  api,
+  shuffle,
+  returnToFrontend,
+  alphabetize,
+  sortInput,
+} from "../utils/index";
 
 const router = Router();
 
@@ -50,7 +57,8 @@ router.get("/callback", async (req, res) => {
       }
     }, (expires_in / 2) * 100);
 
-    res.sendFile(path.join(__dirname, "../frontend/index.html"));
+    // res.sendFile(path.join(__dirname, "../frontend/index.html"));
+    returnToFrontend(res);
   } catch (error) {
     return res.status(400).send({
       success: false,

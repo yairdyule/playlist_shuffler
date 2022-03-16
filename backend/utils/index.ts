@@ -41,3 +41,18 @@ export function shuffle(array: any[]) {
 
   return array;
 }
+
+export type sortInput = { toCompare: any; uri: string };
+export function alphabetize(input: sortInput[]) {
+  let arr = input.slice(0); //copy array
+  let sorted = arr.sort((a, b) => a.toCompare < b.toCompare ? -1 : 1);
+  return sorted;
+}
+
+export function returnToFrontend(res: Response) {
+  if (process.env.NODE_ENV == "development") {
+    res.redirect("http://localhost:3000");
+  } else {
+    res.sendFile(path.join(__dirname, "../frontend/index.html"));
+  }
+}
