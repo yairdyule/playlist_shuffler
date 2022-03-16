@@ -22,7 +22,6 @@ router.get("/", async (_req, res) => {
 
 // /spotify/auth
 router.get("/auth", async (_req, res) => {
-  console.log(api.getRedirectURI());
   res.redirect(api.createAuthorizeURL(scopes, "arstneio", true));
 });
 
@@ -229,7 +228,6 @@ router.get("/getPlaylistTracks/:id", async (req, res) => {
     );
 
     let tracks = trackResponse.tracks.slice(0, 15).map((track) => {
-      console.log(track.album.images[0]);
       return {
         id: track.id,
         name: track.name,
