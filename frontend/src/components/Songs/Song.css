@@ -1,0 +1,41 @@
+.song {
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+  padding: .5rem;
+  /* align-items: space-between; */
+}
+
+.song img {
+  width: 45px;
+  height: 45px;
+}
+
+.song .info h3 {
+  color: white;
+  font-size: 0.75rem;
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.song .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 0;
+  padding-left: .75rem;
+}
+
+.song .info ul li {
+  list-style-type: none;
+  display: inline;
+  font-size: 0.63rem;
+  margin: 0 1.5px;
+  padding: 0;
+}
