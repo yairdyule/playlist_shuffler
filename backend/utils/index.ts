@@ -1,5 +1,7 @@
 import SpotifyWebApi from "spotify-web-api-node";
 import dotenv from "dotenv";
+import { Response } from "express";
+import path from "path";
 dotenv.config();
 
 export const api = new SpotifyWebApi({
@@ -7,7 +9,7 @@ export const api = new SpotifyWebApi({
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
   redirectUri:
     process.env.NODE_ENV === "development"
-      ? process.env.SPOTIFY_REDIRECT_URI
+      ? "http://localhost:8000/spotify/callback"
       : process.env.REDIRECT_URI,
 });
 
