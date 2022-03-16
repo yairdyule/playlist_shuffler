@@ -8,30 +8,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SpotifyRouter = void 0;
 const express_1 = require("express");
-const path_1 = __importDefault(require("path"));
 const index_1 = require("../utils/index");
 const router = (0, express_1.Router)();
-router.get("/test", (req, res) => {
+router.get("/test", (_req, res) => {
     res.status(200).send({ msg: "tested" });
 });
 // route: /spotify/
-router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.redirect("/spotify/auth");
 }));
 // /spotify/auth
-router.get("/auth", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(index_1.api.getRedirectURI());
+router.get("/auth", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.redirect(index_1.api.createAuthorizeURL(index_1.scopes, "arstneio", true));
 }));
 // /spotify/callback
 router.get("/callback", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { error, code, state } = req.query;
+    const { error, code } = req.query;
     if (error) {
         return res.status(401).send({
             success: false,
@@ -56,7 +51,8 @@ router.get("/callback", (req, res) => __awaiter(void 0, void 0, void 0, function
                 console.log(err);
             }
         }), (expires_in / 2) * 100);
-        res.sendFile(path_1.default.join(__dirname, "../frontend/index.html"));
+        // res.sendFile(path.join(__dirname, "../frontend/index.html"));
+        (0, index_1.returnToFrontend)(res);
     }
     catch (error) {
         return res.status(400).send({
@@ -65,7 +61,7 @@ router.get("/callback", (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
 }));
-router.get("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/user", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let { body } = yield index_1.api.getMe();
         let img = body.images[0].url;
@@ -86,7 +82,7 @@ router.get("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }]
 * }
  */
-router.get("/getUserPlaylists", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/getUserPlaylists", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let { body } = yield index_1.api.getUserPlaylists();
     let playlists = body.items.map((plist) => {
         return {
@@ -150,6 +146,77 @@ router.get("/shufflePlaylist/:id", (req, res) => __awaiter(void 0, void 0, void 
     catch (err) {
         console.error(err);
         console.log("sorry");
+    }
+}));
+router.get("/alphabetizePlaylistTracks/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _b;
+    let id = (_b = req.params) === null || _b === void 0 ? void 0 : _b.id;
+    try {
+        let { body: playlist } = yield index_1.api.getPlaylist(id);
+        let uris = playlist.tracks.items.map(({ track }) => {
+            return { uri: track.uri };
+        });
+        yield index_1.api.removeTracksFromPlaylist(id, uris);
+        let trackStuff = playlist.tracks.items.map(({ track }) => {
+            return {
+                toCompare: track.name,
+                uri: track.uri,
+            };
+        });
+        trackStuff = (0, index_1.alphabetize)(trackStuff);
+        let alphabetizedUris = trackStuff.map((datum) => datum.uri);
+        yield index_1.api.addTracksToPlaylist(id, alphabetizedUris);
+        res.send({ success: true });
+    }
+    catch (err) {
+        res.status(400).send({ success: false });
+    }
+}));
+router.get("/alphabetizePlaylistArtists/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _c;
+    let id = (_c = req.params) === null || _c === void 0 ? void 0 : _c.id;
+    try {
+        let { body: playlist } = yield index_1.api.getPlaylist(id);
+        let uris = playlist.tracks.items.map(({ track }) => {
+            return { uri: track.uri };
+        });
+        yield index_1.api.removeTracksFromPlaylist(id, uris);
+        let trackStuff = playlist.tracks.items.map(({ track }) => {
+            return {
+                toCompare: track.artists[0].name,
+                uri: track.uri,
+            };
+        });
+        trackStuff = (0, index_1.alphabetize)(trackStuff);
+        let alphabetizedUris = trackStuff.map((datum) => datum.uri);
+        yield index_1.api.addTracksToPlaylist(id, alphabetizedUris);
+        res.send({ success: true });
+    }
+    catch (err) {
+        res.status(400).send({ success: false });
+    }
+}));
+router.get("/getPlaylistTracks/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _d;
+    let playlistId = (_d = req.params) === null || _d === void 0 ? void 0 : _d.id;
+    try {
+        let { body: playlist } = yield index_1.api.getPlaylist(playlistId);
+        let { body: trackResponse } = yield index_1.api.getTracks(playlist.tracks.items.map(({ track }) => track.id));
+        let tracks = trackResponse.tracks.slice(0, 15).map((track) => {
+            return {
+                id: track.id,
+                name: track.name,
+                artists: track.artists.map((artist) => artist.name),
+                image: track.album.images[0].url,
+                album: track.album.name,
+            };
+        });
+        res
+            .status(200)
+            .send({ success: true, msg: "tracks fetched", tracks: tracks });
+    }
+    catch (err) {
+        res.status(400).send({ success: false, msg: err });
     }
 }));
 exports.SpotifyRouter = {

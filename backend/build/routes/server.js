@@ -8,16 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ServerRouter = void 0;
 const express_1 = require("express");
-const path_1 = __importDefault(require("path"));
+const utils_1 = require("../utils");
 const router = (0, express_1.Router)();
-router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.sendFile(path_1.default.join(__dirname, "../frontend/index.html"));
+router.get("/", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // res.sendFile(path.join(__dirname, "../frontend/index.html"));
+    (0, utils_1.returnToFrontend)(res);
 }));
 exports.ServerRouter = {
     router: router,
