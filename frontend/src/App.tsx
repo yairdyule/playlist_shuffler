@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import User from "./components/User/User";
 import "./App.css";
 import Playlists from "./components/Playlists/Playlists";
-import { Route, Routes } from "react-router-dom";
-// import { api } from "./utilities/api";
+import { authUrl } from "./utilities/api";
 
 function App() {
   const [isAuthed, setIsAuthed] = useState(false);
@@ -33,7 +32,7 @@ function App() {
       <div className="App">
         {heading}
         <a
-          href="https://shuffling-extravaganza.herokuapp.com/spotify/auth"
+          href={authUrl}
           onClick={() => click()}
         >
           authorize us with spotify
