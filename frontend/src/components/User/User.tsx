@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IUser } from "../../types";
-import { api } from "../../utilities/api";
+import { getUser } from "../../utilities/api";
 import "./User.css";
 
 export default function User() {
@@ -8,7 +8,7 @@ export default function User() {
 
   useEffect(() => {
     (async () => {
-      let { data } = await api.get("/spotify/user");
+      let { data } = await getUser();
       console.log(data);
       setUser(data);
     })();
