@@ -83,16 +83,22 @@ router.get("/user", (_req, res) => __awaiter(void 0, void 0, void 0, function* (
 * }
  */
 router.get("/getUserPlaylists", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let { body } = yield index_1.api.getUserPlaylists();
-    let playlists = body.items.map((plist) => {
-        return {
-            id: plist.id,
-            name: plist.name,
-            img: plist.images[0],
-            tracks: plist.tracks,
-        };
-    });
-    res.send({ playlists: playlists });
+    try {
+        let { body } = yield index_1.api.getUserPlaylists();
+        let playlists = body.items.map((plist) => {
+            return {
+                id: plist.id,
+                name: plist.name,
+                img: plist.images[0],
+                tracks: plist.tracks,
+            };
+        });
+        res.send({ playlists: playlists });
+    }
+    catch (err) {
+        console.error(err);
+        res.status(401).send({ success: false });
+    }
 }));
 router.get("/getUserPlaylist/:playlistId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let { playlistId } = req.params;
