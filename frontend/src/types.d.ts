@@ -4,11 +4,19 @@ type img = {
   width: number;
 };
 
+export interface ITrack {
+  name: string;
+  id: string;
+  image: string;
+  artists: string[];
+  album: string;
+}
+
 export interface IPlaylist {
   id?: string;
   name?: string;
   img?: img;
-  tracks?: any[];
+  tracks?: ITrack[];
 }
 
 export interface IUser {
