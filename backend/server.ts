@@ -1,4 +1,4 @@
-import express, { Application, IRoute } from "express";
+import express, { Application } from "express";
 import { Routes } from "./routes";
 import { Wares } from "./wares";
 
