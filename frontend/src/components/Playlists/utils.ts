@@ -38,3 +38,7 @@ export async function orderByArtist(playlistId: string): Promise<ITrack[]> {
   }
   return [];
 }
+
+export const unsetCookie = () => {
+  localStorage.removeItem('isAuthed')
+}

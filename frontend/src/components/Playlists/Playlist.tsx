@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getPlaylistTracks } from "../../utilities/api";
-import { shuffleSongs, orderByName, orderByArtist } from "./utils";
+import { shuffleSongs, orderByName, orderByArtist, unsetCookie } from "./utils";
 import { IPlaylist, ITrack } from "../../types";
 
 import Song from "../Songs/Song";
@@ -10,8 +10,12 @@ export default function Playlist({ playlist }: { playlist: IPlaylist }) {
   const [songs, setSongs] = useState<ITrack[]>([]);
   const [showSongs, setShowSongs] = useState(false);
 
+  useEffect(() => {
+    window.addEventListener('beforeunload', unsetCookie)
+  }, [])
+
   const handleClick = async () => {
-    if (songs.length == 0) {
+    if (songs.length === 0) {
       let { data } = await getPlaylistTracks(playlist.id as string);
       setSongs(data.tracks as ITrack[]);
     }
