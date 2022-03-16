@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IPlaylist } from "../../types";
-import { api } from "../../utilities/api";
+import { getUserPlaylists } from "../../utilities/api";
 import Playlist from "./Playlist";
 import "./Playlist.css";
 
@@ -9,7 +9,7 @@ export default function Playlists() {
 
   useEffect(() => {
     (async () => {
-      let { data } = await api.get("/spotify/getUserPlaylists");
+      let { data } = await getUserPlaylists()
       setPlaylists(data.playlists);
     })();
   }, []);
@@ -22,8 +22,7 @@ export default function Playlists() {
 
   return (
     <div className="playlists">
-      <h2></h2>
-
+      <hr/>
       {playlists.map((list) => {
         return <Playlist playlist={list} />;
       })}
