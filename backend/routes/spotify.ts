@@ -162,6 +162,91 @@ router.get("/shufflePlaylist/:id", async (req, res) => {
   }
 });
 
+router.get("/alphabetizePlaylistTracks/:id", async (req, res) => {
+  let id = req.params?.id;
+  try {
+    let { body: playlist } = await api.getPlaylist(id);
+
+    let uris = playlist.tracks.items.map(({ track }) => {
+      return { uri: track.uri };
+    });
+
+    await api.removeTracksFromPlaylist(id, uris);
+
+    let trackStuff: sortInput[] = playlist.tracks.items.map(({ track }) => {
+      return {
+        toCompare: track.name,
+        uri: track.uri,
+      };
+    });
+    trackStuff = alphabetize(trackStuff);
+
+    let alphabetizedUris = trackStuff.map((datum) => datum.uri)
+    await api.addTracksToPlaylist(id, alphabetizedUris)
+    res.send({success: true})
+
+  } catch (err) {
+    res.status(400).send({success: false})
+  }
+});
+
+router.get("/alphabetizePlaylistArtists/:id", async (req, res) => {
+  let id = req.params?.id;
+  try {
+    let { body: playlist } = await api.getPlaylist(id);
+
+    let uris = playlist.tracks.items.map(({ track }) => {
+      return { uri: track.uri };
+    });
+
+    await api.removeTracksFromPlaylist(id, uris);
+
+    let trackStuff: sortInput[] = playlist.tracks.items.map(({ track }) => {
+      return {
+        toCompare: track.artists[0].name,
+        uri: track.uri,
+      };
+    });
+    trackStuff = alphabetize(trackStuff);
+
+    let alphabetizedUris = trackStuff.map((datum) => datum.uri)
+    await api.addTracksToPlaylist(id, alphabetizedUris)
+    res.send({success: true})
+
+  } catch (err) {
+    res.status(400).send({success: false})
+  }
+});
+
+router.get("/getPlaylistTracks/:id", async (req, res) => {
+  let playlistId = req.params?.id;
+
+  try {
+    let { body: playlist } = await api.getPlaylist(playlistId);
+
+    let { body: trackResponse } = await api.getTracks(
+      playlist.tracks.items.map(({ track }) => track.id)
+    );
+
+    let tracks = trackResponse.tracks.slice(0, 15).map((track) => {
+      console.log(track.album.images[0]);
+      return {
+        id: track.id,
+        name: track.name,
+        artists: track.artists.map((artist) => artist.name),
+        image: track.album.images[0].url,
+        album: track.album.name,
+      };
+    });
+
+    res
+      .status(200)
+      .send({ success: true, msg: "tracks fetched", tracks: tracks });
+  } catch (err) {
+    res.status(400).send({ success: false, msg: err });
+  }
+});
+
 export const SpotifyRouter: IRoute = {
   router: router,
   path: "/spotify",
