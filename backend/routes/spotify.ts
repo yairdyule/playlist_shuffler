@@ -1,5 +1,4 @@
 import { Router } from "express";
-import path, { join } from "path";
 import { IRoute } from "../types";
 import {
   scopes,
@@ -12,24 +11,24 @@ import {
 
 const router = Router();
 
-router.get("/test", (req, res) => {
+router.get("/test", (_req, res) => {
   res.status(200).send({ msg: "tested" });
 });
 
 // route: /spotify/
-router.get("/", async (req, res) => {
+router.get("/", async (_req, res) => {
   res.redirect("/spotify/auth");
 });
 
 // /spotify/auth
-router.get("/auth", async (req, res) => {
+router.get("/auth", async (_req, res) => {
   console.log(api.getRedirectURI());
   res.redirect(api.createAuthorizeURL(scopes, "arstneio", true));
 });
 
 // /spotify/callback
 router.get("/callback", async (req, res) => {
-  const { error, code, state } = req.query;
+  const { error, code } = req.query;
 
   if (error) {
     return res.status(401).send({
@@ -67,7 +66,7 @@ router.get("/callback", async (req, res) => {
   }
 });
 
-router.get("/user", async (req, res) => {
+router.get("/user", async (_req, res) => {
   try {
     let { body } = await api.getMe();
 
@@ -90,7 +89,7 @@ router.get("/user", async (req, res) => {
     }]
 * }
  */
-router.get("/getUserPlaylists", async (req, res) => {
+router.get("/getUserPlaylists", async (_req, res) => {
   let { body } = await api.getUserPlaylists();
   let playlists = body.items.map((plist) => {
     return {
