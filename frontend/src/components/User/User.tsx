@@ -22,7 +22,7 @@ export default function User() {
 
   return (
     <div className="profile">
-      <img src={user.img} />
+      <img src={user.img} alt="" />
       <h1 className="name">{user.name}</h1>
     </div>
   );

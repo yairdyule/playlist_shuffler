@@ -12,9 +12,22 @@ export default function Playlist({ playlist }: { playlist: IPlaylist }) {
   };
 
   return (
-    <div className={`playlist ${shuffled && "shuffled"}`} onClick={handleClick}>
-      <img src={playlist?.img?.url} />
-      <h3>{playlist.name}</h3>
-    </div>
+    <>
+      <div className="playlist" onClick={handleClick}>
+        <img src={playlist?.img?.url} alt="" />
+        <h3>{playlist.name}</h3>
+      </div>
+      <div className="songs">
+        {showSongs && songs && songs.map((track) => <Song track={track} />)}
+      </div>
+      {showSongs && (
+        <div className="buttons">
+          <button onClick={handleShuffle}>shuffle</button>
+          <button onClick={handleOrderByName}>order by name</button>
+          <button onClick={handleOrderByArtist}>order by artist</button>
+        </div>
+      )}
+      <hr />
+    </>
   );
 }
