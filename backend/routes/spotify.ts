@@ -89,6 +89,8 @@ router.get("/user", async (_req, res) => {
 * }
  */
 router.get("/getUserPlaylists", async (_req, res) => {
+  try {
+
   let { body } = await api.getUserPlaylists();
   let playlists = body.items.map((plist) => {
     return {
@@ -100,6 +102,10 @@ router.get("/getUserPlaylists", async (_req, res) => {
   });
 
   res.send({ playlists: playlists });
+  } catch (err) {
+    console.error(err)
+    res.status(401).send({success: false})
+  }
 });
 
 router.get("/getUserPlaylist/:playlistId", async (req, res) => {

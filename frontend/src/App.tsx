@@ -5,11 +5,6 @@ import Playlists from "./components/Playlists/Playlists";
 import { authUrl } from "./utilities/api";
 
 function App() {
-
-  window.addEventListener('beforeunload', () => {
-    localStorage.removeItem('isAuthed')
-  })
-
   const [isAuthed, setIsAuthed] = useState(false);
 
   const click = () => {
@@ -22,13 +17,6 @@ function App() {
     setIsAuthed(authed === "yes" ? true : false);
   }, []);
 
-  // useEffect(() => {
-  //   window.addEventListener("beforeunload", handleUnload);
-  // }, []);
-  //
-  // const handleUnload = () => {
-  //   localStorage.setItem("isAuthed", "no");
-  // };
 
   const heading = <h1>playlist shuffling extravaganza</h1>;
 
@@ -37,8 +25,8 @@ function App() {
       <div className="App">
         {heading}
         <a
+          // href="https://shuffling-extravaganza.herokuapp.com/spotify/auth"
           href={authUrl}
-          target="_blank"
           onClick={() => click()}
         >
           authorize us with spotify
