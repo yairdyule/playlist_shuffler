@@ -1,11 +1,12 @@
 .playlist {
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   gap: 1rem;
 
   margin: 0.2rem;
+  padding: 0.4rem;
 }
 
 .playlist:hover {
@@ -20,5 +21,53 @@
 }
 
 .playlist img {
-  width: 50px;
+  width: 70px;
+}
+
+.playlists hr {
+  margin-bottom: 1.5rem;
+}
+
+/**
+* gradient courtesy of
+* @cite: https://stackoverflow.com/questions/15597167/css3-opacity-gradient
+*/
+.songs {
+  padding-left: 3rem;
+  /* background-image: linear-gradient(to bottom, rgba(0,67,116,0.6) -26.48%, rgba(0,51,102,0.6) 73.52%); */
+  mask-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgba(0, 0, 0, 1)),
+    to(rgba(0, 0, 0, 0.1))
+  );
+  -webkit-mask-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgba(0, 0, 0, 1)),
+    to(rgba(0, 0, 0, 0.1))
+  );
+}
+
+.buttons {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+button {
+  padding: .3rem .7rem;
+  background-color: #69a72c;
+  color: #000;
+  border: 0;
+  border-radius: 6px;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color:#578e21;
 }
