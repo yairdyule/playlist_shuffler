@@ -1,14 +1,33 @@
-import { useEffect, useState } from "react";
-import { IPlaylist } from "../../types";
-import { api } from "../../utilities/api";
+import { useState } from "react";
+import { getPlaylistTracks } from "../../utilities/api";
+import { shuffleSongs, orderByName, orderByArtist } from "./utils";
+import { IPlaylist, ITrack } from "../../types";
+
+import Song from "../Songs/Song";
 import "./Playlist.css";
 
 export default function Playlist({ playlist }: { playlist: IPlaylist }) {
-  const [shuffled, setShuffled] = useState<true | false | null>(null);
+  const [songs, setSongs] = useState<ITrack[]>([]);
+  const [showSongs, setShowSongs] = useState(false);
 
   const handleClick = async () => {
-    let { data } = await api.get(`/spotify/shufflePlaylist/${playlist.id}`);
-    setShuffled(data.success);
+    if (songs.length == 0) {
+      let { data } = await getPlaylistTracks(playlist.id as string);
+      setSongs(data.tracks as ITrack[]);
+    }
+    setShowSongs(!showSongs);
+  };
+
+  const handleShuffle = async () => {
+    setSongs(await shuffleSongs(playlist.id as string));
+  };
+
+  const handleOrderByName = async () => {
+    setSongs(await orderByName(playlist.id as string));
+  };
+
+  const handleOrderByArtist = async () => {
+    setSongs(await orderByArtist(playlist.id as string));
   };
 
   return (
