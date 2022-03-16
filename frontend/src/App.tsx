@@ -5,6 +5,11 @@ import Playlists from "./components/Playlists/Playlists";
 import { authUrl } from "./utilities/api";
 
 function App() {
+
+  window.addEventListener('beforeunload', () => {
+    localStorage.removeItem('isAuthed')
+  })
+
   const [isAuthed, setIsAuthed] = useState(false);
 
   const click = () => {
@@ -33,6 +38,7 @@ function App() {
         {heading}
         <a
           href={authUrl}
+          target="_blank"
           onClick={() => click()}
         >
           authorize us with spotify

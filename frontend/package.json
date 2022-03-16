@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=development react-scripts start",
-    "build": "NODE_ENV=production react-scripts build && rm -r ../backend/frontend && mv build ../backend/frontend",
+    "build": "NODE_ENV=production react-scripts build && rm -r ../backend/build/frontend && mv build ../backend/build/frontend",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
