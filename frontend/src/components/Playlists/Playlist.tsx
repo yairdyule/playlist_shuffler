@@ -40,9 +40,6 @@ export default function Playlist({ playlist }: { playlist: IPlaylist }) {
         <img src={playlist?.img?.url} alt="" />
         <h3>{playlist.name}</h3>
       </div>
-      <div className="songs">
-        {showSongs && songs && songs.map((track) => <Song track={track} />)}
-      </div>
       {showSongs && (
         <div className="buttons">
           <button onClick={handleShuffle}>shuffle</button>
@@ -50,6 +47,9 @@ export default function Playlist({ playlist }: { playlist: IPlaylist }) {
           <button onClick={handleOrderByArtist}>order by artist</button>
         </div>
       )}
+      <div className="songs">
+        {showSongs && songs && songs.map((track) => <Song track={track} />)}
+      </div>
       <hr />
     </>
   );
